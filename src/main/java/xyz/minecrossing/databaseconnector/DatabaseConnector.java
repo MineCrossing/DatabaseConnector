@@ -12,10 +12,40 @@ import java.util.Map;
 public class DatabaseConnector {
 
     private static final Map<String, Database> DATABASES = new HashMap<>();
-
     private static DatabaseConnector instance;
 
-    public static void main(String[] args) {
+    /**
+     * Constructor for creating database connections
+     *
+     * @param details The list of database connections to establish
+     */
+    private DatabaseConnector(List<DatabaseDetails> details) {
+        for (DatabaseDetails detail : details) {
+            Database database = new Database(detail);
+            DATABASES.put(detail.getDatabase(), database);
+
+            if (database.isConnected()) {
+                Logger.info("Database '" + detail.getDatabase() + "' connected.");
+            } else {
+                Logger.error("Database '" + detail.getDatabase() + "' failed to connect!");
+            }
+        }
+    }
+
+    /**
+     * Grab an instance of the database connector
+     *
+     * @return An instance of the database connector
+     */
+    public static DatabaseConnector getInstance() {
+        if (instance == null) load();
+        return instance;
+    }
+
+    /**
+     * Load the database properties from file
+     */
+    private static void load() {
         // load databases from file using array for future proofing
         List<DatabaseDetails> detailsList = new ArrayList<>();
 
@@ -28,28 +58,21 @@ public class DatabaseConnector {
         instance = new DatabaseConnector(detailsList);
     }
 
-    private DatabaseConnector(List<DatabaseDetails> details) {
-        for (DatabaseDetails detail : details) {
-            Database database = new Database(detail.getHostname(), detail.getPort(), detail.getDatabase(), detail.getUsername(), detail.getPassword());
-            DATABASES.put(detail.getDatabase(), database);
-
-            if (database.isConnected()) {
-                Logger.info("Database '" + detail.getDatabase() + "' connected.");
-            } else {
-                Logger.error("Database '" + detail.getDatabase() + "' failed to connect!");
-            }
-        }
-    }
-
-    public static DatabaseConnector getInstance() {
-        return instance;
-    }
-
+    /**
+     * Get a database connection dependant upon its ID
+     *
+     * @param database The database connection to grab
+     * @return A database connection dependant upon its ID
+     * @throws SQLException When the database does not exist
+     */
     public Connection getConnection(String database) throws SQLException {
         if (DATABASES.containsKey(database)) return DATABASES.get(database).getConnection();
         return null;
     }
 
+    /**
+     * Shutdown the connection to avoid memory leaks
+     */
     public void shutdown() {
         for (Database database : DATABASES.values()) {
             if (database.isConnected()) database.shutdown();

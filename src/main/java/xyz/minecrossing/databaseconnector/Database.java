@@ -8,29 +8,34 @@ import java.sql.SQLException;
 
 public class Database {
 
-    private final String ip, database, username, password;
-    private final int port;
+    private final DatabaseDetails details;
 
     private HikariDataSource hikari;
     private boolean isConnected = false;
 
-    public Database(String ip, int port, String database, String username, String password) {
-        this.ip = ip;
-        this.port = port;
-        this.database = database;
-        this.username = username;
-        this.password = password;
+    /**
+     * Constructor for creating a database class
+     *
+     * @param details The databse connection details
+     */
+    public Database(DatabaseDetails details) {
+        this.details = details;
 
         connect();
     }
 
+    /**
+     * Connect to the database using a connection pool
+     */
     private void connect() {
         // create connection
         HikariConfig config = new HikariConfig();
         config.setDriverClassName("com.mysql.jdbc.Driver");
-        config.setJdbcUrl("jdbc:mysql://" + ip + ":" + port + "/" + database);
+        config.setJdbcUrl("jdbc:mysql://" + details.getHostname() + ":" + details.getPort() + "/" + details.getDatabase());
         config.addDataSourceProperty("useSSL", "false"); // stops console spam about ssl errors
-        config.setUsername(username);
+        config.setUsername(details.getUsername());
+
+        String password = details.getPassword();
         if (password != null || password.contentEquals("")) config.setPassword(password);
 
         hikari = new HikariDataSource(config);
@@ -46,14 +51,28 @@ public class Database {
 
     }
 
+    /**
+     * Get the database connection from the connection pool
+     *
+     * @return A database connection from the connection pool
+     * @throws SQLException When the pool does not exist
+     */
     public Connection getConnection() throws SQLException {
         return hikari.getConnection();
     }
 
+    /**
+     * Shutdown the connection pool to avoid memory leaks
+     */
     public void shutdown() {
         if (!hikari.isClosed()) hikari.close();
     }
 
+    /**
+     * Check that the database is connected
+     *
+     * @return <code>true</code> if the databsae is connected, <code>false</code> otherwise
+     */
     public boolean isConnected() {
         return isConnected;
     }

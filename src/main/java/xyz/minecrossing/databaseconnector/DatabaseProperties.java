@@ -12,6 +12,9 @@ public class DatabaseProperties implements PropertyLoader {
     private final String FILE_NAME = "database.properties";
     private final String FILE = FILE_PATH + FILE_NAME;
 
+    /**
+     * Create the database connection properties if they dont exist
+     */
     @Override
     public void createProperties() {
         if (!new File(FILE).exists()) {
@@ -29,6 +32,11 @@ public class DatabaseProperties implements PropertyLoader {
         }
     }
 
+    /**
+     * Load the connection details from the storage medium
+     *
+     * @return The database connection details
+     */
     @Override
     public ConnectionDetails loadProperties() {
         try (InputStream input = new FileInputStream(FILE)) {
