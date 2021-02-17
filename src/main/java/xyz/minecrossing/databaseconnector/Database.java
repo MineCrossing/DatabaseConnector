@@ -35,8 +35,8 @@ public class Database {
         config.addDataSourceProperty("useSSL", "false"); // stops console spam about ssl errors
         config.setUsername(details.getUsername());
 
-        String password = details.getPassword();
-        if (password != null || password.contentEquals("")) config.setPassword(password);
+        String password = details.getPassword() == null ? "" : details.getPassword();
+        config.setPassword(password);
 
         hikari = new HikariDataSource(config);
 
