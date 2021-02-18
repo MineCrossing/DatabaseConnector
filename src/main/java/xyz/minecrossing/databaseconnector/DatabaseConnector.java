@@ -71,6 +71,15 @@ public class DatabaseConnector {
     }
 
     /**
+     * Manually add a database at run time
+     *
+     * @param details The detials of the database to add
+     */
+    public void addDatabase(DatabaseDetails details) {
+        DATABASES.putIfAbsent(details.getDatabase(), new Database(details));
+    }
+
+    /**
      * Shutdown the connection to avoid memory leaks
      */
     public void shutdown() {
