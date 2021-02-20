@@ -10,13 +10,26 @@ git clone https://github.com/MineCrossing/DatabaseConnector.git
 cd DatabaseConnector
 mvn install
 ```
-Then add this into your dependencies section in your pom.xml
+Then add these into your pom.xml
 ```xml
-<dependency>
-    <groupId>xyz.minecrossing</groupId>
-    <artifactId>DatabaseConnector</artifactId>
-    <version>1.0.0</version>
-</dependency>
+<repositories>
+    ...
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+</repositories>
+
+<dependencies>
+    ...
+    <dependency>
+        <groupId>xyz.minecrossing</groupId>
+        <artifactId>DatabaseConnector</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
 ```
 
 #### Example Usage
