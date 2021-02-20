@@ -19,7 +19,7 @@ To use DatabaseConnector add these into your pom.xml
 <dependencies>
     ...
     <dependency>
-        <groupId>xyz.minecrossing</groupId>
+        <groupId>com.github.MineCrossing</groupId>
         <artifactId>DatabaseConnector</artifactId>
         <version>1.0.0</version>
     </dependency>
