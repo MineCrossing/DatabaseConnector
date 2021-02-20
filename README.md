@@ -4,7 +4,7 @@ Database connection pooling utility and API for communication with databases bet
 DatabaseConnector uses connection pooling to simplify the process of managing multiple plugins connecting to the same database.
 
 ## Maven Repository
-To use RedisAPI add these into your pom.xml
+To use DatabaseConnector add these into your pom.xml
 ```xml
 <repositories>
     ...
