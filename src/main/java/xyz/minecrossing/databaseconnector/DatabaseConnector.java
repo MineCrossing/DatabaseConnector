@@ -3,12 +3,8 @@ package xyz.minecrossing.databaseconnector;
 import xyz.minecrossing.coreutilities.Logger;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DatabaseConnector {
@@ -75,10 +71,20 @@ public class DatabaseConnector {
     /**
      * Manually add a database at run time
      *
-     * @param details The detials of the database to add
+     * @param details The details of the database to add
      */
     public void addDatabase(DatabaseDetails details) {
         DATABASES.putIfAbsent(details.getDatabase(), new Database(details));
+    }
+
+    /**
+     * Remove and shutdown a database connection at run time
+     *
+     * @param details The details  of the database to remove
+     */
+    public void removeDatabase(DatabaseDetails details) {
+        Database database = DATABASES.remove(details.getDatabase());
+        database.shutdown();
     }
 
     /**

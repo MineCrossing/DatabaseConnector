@@ -23,6 +23,7 @@
             <version>3.4.5</version>
         </dependency>
 
+        <!-- MySQL Connector -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

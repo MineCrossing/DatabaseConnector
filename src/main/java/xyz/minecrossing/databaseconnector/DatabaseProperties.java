@@ -27,7 +27,6 @@ public class DatabaseProperties implements PropertyLoader {
      */
     @Override
     public ConnectionDetails loadProperties() {
-        //try (InputStream input = new FileInputStream(FILE)) {
         try {
             InputStream is = getClass().getClassLoader().getResourceAsStream(FILE_NAME);
             Properties properties = new Properties();
