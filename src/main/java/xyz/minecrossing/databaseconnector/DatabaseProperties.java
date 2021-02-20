@@ -17,19 +17,7 @@ public class DatabaseProperties implements PropertyLoader {
      */
     @Override
     public void createProperties() {
-        /*if (!new File(FILE).exists()) {
-            try (OutputStream output = new FileOutputStream(FILE)) {
-                Properties properties = new Properties();
-                properties.setProperty("ip", "127.0.0.1");
-                properties.setProperty("port", "3306");
-                properties.setProperty("username", "root");
-                properties.setProperty("password", "");
-
-                properties.store(output, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }*/
+        // Unused for now
     }
 
     /**
