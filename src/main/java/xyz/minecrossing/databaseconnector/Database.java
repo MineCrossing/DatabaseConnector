@@ -16,7 +16,7 @@ public class Database {
     /**
      * Constructor for creating a database class
      *
-     * @param details The databse connection details
+     * @param details The database connection details
      */
     public Database(DatabaseDetails details) {
         this.details = details;

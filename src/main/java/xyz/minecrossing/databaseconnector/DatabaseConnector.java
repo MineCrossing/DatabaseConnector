@@ -3,6 +3,8 @@ package xyz.minecrossing.databaseconnector;
 import xyz.minecrossing.coreutilities.Logger;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,16 +21,20 @@ public class DatabaseConnector {
      *
      * @param details The list of database connections to establish
      */
-    private DatabaseConnector(List<DatabaseDetails> details) {
-        for (DatabaseDetails detail : details) {
-            Database database = new Database(detail);
-            DATABASES.put(detail.getDatabase(), database);
+    private DatabaseConnector(DatabaseDetails details) {
+        if (details == null) return;
 
-            if (database.isConnected()) {
-                Logger.info("Database '" + detail.getDatabase() + "' connected.");
-            } else {
-                Logger.error("Database '" + detail.getDatabase() + "' failed to connect!");
-            }
+        String databaseName = details.getDatabase();
+        if (databaseName == null) return;
+        if (details.getDatabase().isEmpty()) return;
+
+        Database database = new Database(details);
+        DATABASES.put(databaseName, database);
+
+        if (database.isConnected()) {
+            Logger.info("Database '" + databaseName + "' connected.");
+        } else {
+            Logger.error("Database '" + databaseName + "' failed to connect!");
         }
     }
 
@@ -46,16 +52,12 @@ public class DatabaseConnector {
      * Load the database properties from file
      */
     private static void load() {
-        // load databases from file using array for future proofing
-        List<DatabaseDetails> detailsList = new ArrayList<>();
-
+        // load databases from file
         DatabaseProperties properties = new DatabaseProperties();
         properties.createProperties(); // make sure file exists
 
-        detailsList.add((DatabaseDetails) properties.loadProperties());
-
         // connect to databases
-        instance = new DatabaseConnector(detailsList);
+        instance = new DatabaseConnector((DatabaseDetails) properties.loadProperties());
     }
 
     /**

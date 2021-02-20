@@ -17,7 +17,7 @@ public class DatabaseProperties implements PropertyLoader {
      */
     @Override
     public void createProperties() {
-        if (!new File(FILE).exists()) {
+        /*if (!new File(FILE).exists()) {
             try (OutputStream output = new FileOutputStream(FILE)) {
                 Properties properties = new Properties();
                 properties.setProperty("ip", "127.0.0.1");
@@ -29,7 +29,7 @@ public class DatabaseProperties implements PropertyLoader {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     /**
@@ -39,9 +39,11 @@ public class DatabaseProperties implements PropertyLoader {
      */
     @Override
     public ConnectionDetails loadProperties() {
-        try (InputStream input = new FileInputStream(FILE)) {
+        //try (InputStream input = new FileInputStream(FILE)) {
+        try {
+            InputStream is = getClass().getClassLoader().getResourceAsStream(FILE_NAME);
             Properties properties = new Properties();
-            properties.load(input);
+            properties.load(is);
 
             return new DatabaseDetails(
                     properties.getProperty("ip"),

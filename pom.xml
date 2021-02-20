@@ -23,6 +23,12 @@
             <version>3.4.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+
         <!-- CoreUtilities -->
         <dependency>
             <groupId>xyz.minecrossing</groupId>
@@ -35,7 +41,6 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>true</filtering>
             </resource>
         </resources>
 
